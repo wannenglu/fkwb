@@ -247,14 +247,32 @@ export default {
           let yyuserinfo = res.data;
           if (yyuserinfo.wiki.roomId != undefined) {
             this.form.pdnumber = yyuserinfo.wiki.roomId;
+
+            this.$message({
+              showClose: true,
+              message: '已自动填充频道ID，请仔细核对！',
+              type: 'success'
+            });
           } else {
             this.form.pdnumber = "";
-          }
 
+            this.$message({
+              showClose: true,
+              message: '未查询到绑定的频道ID，请自行填写！'
+            });
+          }
+          
+          
+          
           console.log(res); //  请求成功
         })
         .catch(error => {
           console.log(error); // 请求失败
+          this.$message({
+            showClose: true,
+            message: '很抱歉，查询失败，请自行填写！',
+            type: 'error'
+          });
         });
     },
 

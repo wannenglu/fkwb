@@ -1,5 +1,5 @@
 "use strict";
 module.exports = {
   NODE_ENV: '"production"',
-  API_HOST: '"https://mobi.yy.com"' //生产环境的地址
+  API_HOST: '"/api"' //生产环境的地址
 };
