@@ -1,14 +1,14 @@
 <template>
   <div id="app">
     <div class="header">
-      <h2>初心战队文本生成器</h2>
+      <h2>YY志愿者联盟反馈文本生成器</h2>
     </div>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName" @tab-click="handleClick" stretch>
       <el-tab-pane label="常规文本" name="first">
         <div class="formdiv">
           <el-form ref="form" :model="form" label-width="80px">
             <div class="demo-input-suffix">
-              <div class="formp">反馈时间：</div>
+              <div class="formp">反馈时间</div>
               <div class="block">
                 <el-date-picker
                   v-model="form.fktime"
@@ -20,7 +20,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">疑似违规YY号：</div>
+              <div class="formp">疑似违规YY号</div>
               <div class="block">
                 <!-- <el-input placeholder="请输入疑似违规YY号" v-model="form.yynumber" clearable>
               </el-input> -->
@@ -34,7 +34,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">其余YY号：</div>
+              <div class="formp">其余YY号</div>
               <div class="block">
                 <el-input
                   placeholder="请输入其余YY号"
@@ -45,7 +45,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">疑似违规频道号：</div>
+              <div class="formp">疑似违规频道号</div>
               <div class="block">
                 <el-input
                   placeholder="请输入疑似违规频道号"
@@ -56,7 +56,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">疑似违规描述：</div>
+              <div class="formp">疑似违规描述</div>
               <div class="block">
                 <el-input
                   type="textarea"
@@ -68,7 +68,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">反馈人YY号：</div>
+              <div class="formp">反馈人YY号</div>
               <div class="block">
                 <el-select
                   v-model="form.fkyynumber"
@@ -88,7 +88,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">反馈人信息：</div>
+              <div class="formp">反馈人信息</div>
               <div class="block">
                 <el-select
                   v-model="form.fkyyvalue"
@@ -107,7 +107,7 @@
                 </el-select>
               </div>
             </div>
-            <div>
+            <div class="createBtn">
               <el-button type="primary" @click="onSubmit">立即生成</el-button>
             </div>
 
@@ -136,7 +136,7 @@
         <div class="formdiv">
           <el-form ref="form2" :model="form2" label-width="80px">
             <div class="demo-input-suffix">
-              <div class="formp">反馈文本：</div>
+              <div class="formp">反馈文本</div>
               <div class="block">
                 <el-input
                   type="textarea"
@@ -148,7 +148,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">官方昵称：</div>
+              <div class="formp">官方昵称</div>
               <div class="block">
                 <el-input
                   placeholder="请输入官方昵称"
@@ -159,7 +159,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">官方处理结果：</div>
+              <div class="formp">官方处理结果</div>
               <div class="block">
                 <el-input
                   placeholder="请输入官方处理结果"
@@ -170,7 +170,7 @@
               </div>
             </div>
             <div class="demo-input-suffix">
-              <div class="formp">疑问点：</div>
+              <div class="formp">疑问点</div>
               <div class="block">
                 <el-input
                   type="textarea"
@@ -181,7 +181,7 @@
                 </el-input>
               </div>
             </div>
-            <div>
+            <div class="createBtn">
               <el-button type="primary" @click="onSubmit2">立即生成</el-button>
             </div>
             <div class="wbmain">
