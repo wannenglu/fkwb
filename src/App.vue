@@ -3,180 +3,211 @@
     <div class="header">
       <h2>初心战队文本生成器</h2>
     </div>
-    <div class="formdiv">
-      <el-form ref="form" :model="form" label-width="80px">
-        <div class="demo-input-suffix">
-          <div class="formp">反馈时间：</div>
-          <div class="block">
-            <el-date-picker
-              v-model="form.fktime"
-              type="date"
-              placeholder="选择日期"
-              value-format="yyyy年MM月dd日"
-            >
-            </el-date-picker>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">疑似违规YY号：</div>
-          <div class="block">
-            <!-- <el-input placeholder="请输入疑似违规YY号" v-model="form.yynumber" clearable>
+    <el-tabs v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="常规文本" name="first">
+        <div class="formdiv">
+          <el-form ref="form" :model="form" label-width="80px">
+            <div class="demo-input-suffix">
+              <div class="formp">反馈时间：</div>
+              <div class="block">
+                <el-date-picker
+                  v-model="form.fktime"
+                  type="date"
+                  placeholder="选择日期"
+                  value-format="yyyy年MM月dd日"
+                >
+                </el-date-picker>
+              </div>
+            </div>
+            <div class="demo-input-suffix">
+              <div class="formp">疑似违规YY号：</div>
+              <div class="block">
+                <!-- <el-input placeholder="请输入疑似违规YY号" v-model="form.yynumber" clearable>
               </el-input> -->
-            <el-input
-              placeholder="请输入疑似违规YY号"
-              v-model="form.yynumber"
-              clearable
-              @blur="searchpd"
-            >
-            </el-input>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">其余YY号：</div>
-          <div class="block">
-            <el-input
-              placeholder="请输入其余YY号"
-              v-model="form.otheryynumber"
-              clearable
-            >
-            </el-input>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">疑似违规频道号：</div>
-          <div class="block">
-            <el-input
-              placeholder="请输入疑似违规频道号"
-              v-model="form.pdnumber"
-              clearable
-            >
-            </el-input>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">疑似违规描述：</div>
-          <div class="block">
-            <el-input
-              type="textarea"
-              :autosize="{ minRows: 2 }"
-              placeholder="请输入疑似违规描述"
-              v-model="form.wgms"
-            >
-            </el-input>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">反馈人YY号：</div>
-          <div class="block">
-            <el-select
-              v-model="form.fkyynumber"
-              filterable
-              placeholder="请选择反馈人YY号"
-              clearable
-              @change="changeOption"
-            >
-              <el-option
-                v-for="item in form.userdata"
-                :key="item.id"
-                :label="item.number"
-                :value="item.number"
-              >
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">反馈人信息：</div>
-          <div class="block">
-            <el-select
-              v-model="form.fkyyvalue"
-              filterable
-              placeholder="请选择反馈人信息"
-              clearable
-              @change="changeOption2"
-            >
-              <el-option
-                v-for="item in form.userdata"
-                :key="item.id"
-                :label="item.name"
-                :value="item.name"
-              >
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">官方昵称：</div>
-          <div class="block">
-            <el-input
-              placeholder="请输入官方昵称"
-              v-model="form.gfname"
-              clearable
-            >
-            </el-input>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">官方处理结果：</div>
-          <div class="block">
-            <el-input
-              placeholder="请输入官方处理结果"
-              v-model="form.gfcljg"
-              clearable
-            >
-            </el-input>
-          </div>
-        </div>
-        <div class="demo-input-suffix">
-          <div class="formp">疑问点：</div>
-          <div class="block">
-            <el-input
-              type="textarea"
-              :autosize="{ minRows: 2 }"
-              placeholder="请输入疑问点"
-              v-model="form.ywd"
-            >
-            </el-input>
-          </div>
-        </div>
-        <div>
-          <el-button type="primary" @click="onSubmit">立即生成</el-button>
-        </div>
-        <div class="wbmain">
-          <div class="fkwbdiv">
-            <div class="copy1">
-              <el-button type="primary" @click="copy1">复制</el-button>
+                <el-input
+                  placeholder="请输入疑似违规YY号"
+                  v-model="form.yynumber"
+                  clearable
+                  @blur="searchpd"
+                >
+                </el-input>
+              </div>
             </div>
-            <p class="fkwbp">反馈文本</p>
-            <div class="block">
-              <el-input
-                id="fkwb"
-                type="textarea"
-                :autosize="{ minRows: 16 }"
-                placeholder=""
-                v-model="form.fkwb"
-              >
-              </el-input>
+            <div class="demo-input-suffix">
+              <div class="formp">其余YY号：</div>
+              <div class="block">
+                <el-input
+                  placeholder="请输入其余YY号"
+                  v-model="form.otheryynumber"
+                  clearable
+                >
+                </el-input>
+              </div>
             </div>
-          </div>
-          <div class="fkwbdiv">
-            <div class="copy1">
-              <el-button type="primary" @click="copy2">复制</el-button>
+            <div class="demo-input-suffix">
+              <div class="formp">疑似违规频道号：</div>
+              <div class="block">
+                <el-input
+                  placeholder="请输入疑似违规频道号"
+                  v-model="form.pdnumber"
+                  clearable
+                >
+                </el-input>
+              </div>
             </div>
-            <p class="fkwbp">疑问文本</p>
-            <div class="block">
-              <el-input
-                id="fkwb2"
-                type="textarea"
-                :autosize="{ minRows: 16 }"
-                placeholder=""
-                v-model="form.fkwb2"
-              >
-              </el-input>
+            <div class="demo-input-suffix">
+              <div class="formp">疑似违规描述：</div>
+              <div class="block">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 2 }"
+                  placeholder="请输入疑似违规描述"
+                  v-model="form.wgms"
+                >
+                </el-input>
+              </div>
             </div>
-          </div>
+            <div class="demo-input-suffix">
+              <div class="formp">反馈人YY号：</div>
+              <div class="block">
+                <el-select
+                  v-model="form.fkyynumber"
+                  filterable
+                  placeholder="请选择反馈人YY号"
+                  clearable
+                  @change="changeOption"
+                >
+                  <el-option
+                    v-for="item in form.userdata"
+                    :key="item.id"
+                    :label="item.number"
+                    :value="item.number"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div class="demo-input-suffix">
+              <div class="formp">反馈人信息：</div>
+              <div class="block">
+                <el-select
+                  v-model="form.fkyyvalue"
+                  filterable
+                  placeholder="请选择反馈人信息"
+                  clearable
+                  @change="changeOption2"
+                >
+                  <el-option
+                    v-for="item in form.userdata"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.name"
+                  >
+                  </el-option>
+                </el-select>
+              </div>
+            </div>
+            <div>
+              <el-button type="primary" @click="onSubmit">立即生成</el-button>
+            </div>
+
+            <div class="wbmain">
+              <div class="fkwbdiv">
+                <div class="copy1">
+                  <el-button type="primary" @click="copy1">复制</el-button>
+                </div>
+                <p class="fkwbp">反馈文本</p>
+                <div class="block">
+                  <el-input
+                    id="fkwb"
+                    type="textarea"
+                    :autosize="{ minRows: 16 }"
+                    placeholder=""
+                    v-model="form.fkwb"
+                  >
+                  </el-input>
+                </div>
+              </div>
+            </div>
+          </el-form>
         </div>
-      </el-form>
+      </el-tab-pane>
+      <el-tab-pane label="疑问文本" name="second">
+        <div class="formdiv">
+          <el-form ref="form2" :model="form2" label-width="80px">
+            <div class="demo-input-suffix">
+              <div class="formp">反馈文本：</div>
+              <div class="block">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 16 }"
+                  placeholder="请粘贴反馈文本"
+                  v-model="form2.cgwb"
+                >
+                </el-input>
+              </div>
+            </div>
+            <div class="demo-input-suffix">
+              <div class="formp">官方昵称：</div>
+              <div class="block">
+                <el-input
+                  placeholder="请输入官方昵称"
+                  v-model="form2.gfname"
+                  clearable
+                >
+                </el-input>
+              </div>
+            </div>
+            <div class="demo-input-suffix">
+              <div class="formp">官方处理结果：</div>
+              <div class="block">
+                <el-input
+                  placeholder="请输入官方处理结果"
+                  v-model="form2.gfcljg"
+                  clearable
+                >
+                </el-input>
+              </div>
+            </div>
+            <div class="demo-input-suffix">
+              <div class="formp">疑问点：</div>
+              <div class="block">
+                <el-input
+                  type="textarea"
+                  :autosize="{ minRows: 2 }"
+                  placeholder="请输入疑问点"
+                  v-model="form2.ywd"
+                >
+                </el-input>
+              </div>
+            </div>
+            <div>
+              <el-button type="primary" @click="onSubmit2">立即生成</el-button>
+            </div>
+            <div class="wbmain">
+              <div class="fkwbdiv">
+                <div class="copy1">
+                  <el-button type="primary" @click="copy2">复制</el-button>
+                </div>
+                <p class="fkwbp">疑问文本</p>
+                <div class="block">
+                  <el-input
+                    id="fkwb2"
+                    type="textarea"
+                    :autosize="{ minRows: 16 }"
+                    placeholder=""
+                    v-model="form2.fkwb2"
+                  >
+                  </el-input>
+                </div>
+              </div>
+            </div>
+          </el-form>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
+    <div class="beian">
+      <p>YY志愿者联盟-初心战队 © 版权所有</p>
     </div>
   </div>
 </template>
@@ -195,10 +226,14 @@ export default {
         fkyynumber: "", //  反馈人YY号
         fkyyvalue: "", // 反馈人信息
         userdata: [], //  人员
+        fkwb: "" //  反馈文本
+      },
+      activeName: "first",
+      form2: {
+        cgwb: "", //  反馈文本
         gfname: "", //  官方昵称
         gfcljg: "不处理", //  处理结果
         ywd: "", // 疑问点
-        fkwb: "", //  反馈文本
         fkwb2: "" // 疑问反馈文本
       }
     };
@@ -208,6 +243,9 @@ export default {
     this.initDate();
   },
   methods: {
+    handleClick(tab, event) {
+      console.log(tab, event);
+    },
     getjson: function() {
       this.axios({
         url: "./static/user.json", //  请求地址
@@ -250,28 +288,26 @@ export default {
 
             this.$message({
               showClose: true,
-              message: '已自动填充频道ID，请仔细核对！',
-              type: 'success'
+              message: "已自动填充频道ID，请仔细核对！",
+              type: "success"
             });
           } else {
             this.form.pdnumber = "";
 
             this.$message({
               showClose: true,
-              message: '未查询到绑定的频道ID，请自行填写！'
+              message: "未查询到绑定的频道ID，请自行填写！"
             });
           }
-          
-          
-          
+
           console.log(res); //  请求成功
         })
         .catch(error => {
           console.log(error); // 请求失败
           this.$message({
             showClose: true,
-            message: '很抱歉，查询失败，请自行填写！',
-            type: 'error'
+            message: "很抱歉，查询失败，请自行填写！",
+            type: "error"
           });
         });
     },
@@ -352,62 +388,44 @@ export default {
         "反馈人信息" +
         "\r\n" +
         form.fkyyvalue;
-
-      this.form.fkwb2 =
-        "反馈时间" +
-        "\r\n" +
-        form.fktime +
-        "\r\n" +
-        "疑似违规YY号" +
-        "\r\n" +
-        form.yynumber +
-        "\r\n" +
-        "其余YY号" +
-        "\r\n" +
-        form.otheryynumber +
-        "\r\n" +
-        "疑似违规频道号" +
-        "\r\n" +
-        form.pdnumber +
-        "\r\n" +
-        "疑似违规类型" +
-        "\r\n" +
-        "直播" +
-        "\r\n" +
-        "疑似违规描述" +
-        "\r\n" +
-        form.wgms +
-        "\r\n" +
-        "反馈人YY号" +
-        "\r\n" +
-        form.fkyynumber +
-        "\r\n" +
-        "反馈人信息" +
-        "\r\n" +
-        form.fkyyvalue +
-        "\r\n" +
-        "官方处理结果" +
-        "\r\n" +
-        "官方-" +
-        form.gfname +
-        " " +
-        form.gfcljg +
-        "\r\n" +
-        "疑问点" +
-        "\r\n" +
-        form.ywd;
     },
     copy1: function() {
       const input = document.getElementById("fkwb");
       input.setAttribute("code", 1);
       input.select();
       document.execCommand("Copy");
+      this.$message({
+        showClose: true,
+        message: "复制成功！",
+        type: "success"
+      });
+    },
+    onSubmit2: function() {
+      let form2 = this.form2;
+      this.form2.fkwb2 =
+        form2.cgwb +
+        "\r\n" +
+        "官方处理结果" +
+        "\r\n" +
+        "官方-" +
+        form2.gfname +
+        " " +
+        form2.gfcljg +
+        "\r\n" +
+        "疑问点" +
+        "\r\n" +
+        form2.ywd;
     },
     copy2: function() {
       const input = document.getElementById("fkwb2");
       input.setAttribute("code", 1);
       input.select();
       document.execCommand("Copy");
+      this.$message({
+        showClose: true,
+        message: "复制成功！",
+        type: "success"
+      });
     }
   }
 };
