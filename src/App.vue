@@ -76,6 +76,7 @@
                   placeholder="请选择反馈人YY号"
                   clearable
                   @change="changeOption"
+                  @clear="clearValue"
                 >
                   <el-option
                     v-for="item in form.userdata"
@@ -96,6 +97,7 @@
                   placeholder="请选择反馈人信息"
                   clearable
                   @change="changeOption2"
+                  @clear="clearValue"
                 >
                   <el-option
                     v-for="item in form.userdata"
@@ -108,7 +110,9 @@
               </div>
             </div>
             <div class="createBtn">
-              <el-button type="primary" @click="onSubmit">立即生成</el-button>
+              <el-button type="primary" @click="onSubmit" :disabled="disabled"
+                >立即生成</el-button
+              >
             </div>
 
             <div class="wbmain">
@@ -189,7 +193,11 @@
                 <div class="copy1">
                   <el-button type="primary" @click="copy2">复制</el-button>
                 </div>
-                <p class="fkwbp">疑问文本</p>
+                <p class="fkwbp">
+                  疑问文本<i style="color: red;">
+                    (如果其余YY号为空，请自行填写无)</i
+                  >
+                </p>
                 <div class="block">
                   <el-input
                     id="fkwb2"
@@ -235,7 +243,8 @@ export default {
         gfcljg: "不处理", //  处理结果
         ywd: "", // 疑问点
         fkwb2: "" // 疑问反馈文本
-      }
+      },
+      disabled: false
     };
   },
   created() {
@@ -320,6 +329,18 @@ export default {
         return item.number === fkyynumber_data;
       });
       this.form.fkyyvalue = obj.name;
+      if (this.form.fkyynumber == "" || this.form.fkyyvalue == "") {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
+    },
+    clearValue: function() {
+      if (this.form.fkyynumber == "" || this.form.fkyyvalue == "") {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
     },
     changeOption2: function() {
       // console.log(this.form.fkyynumber);
@@ -329,6 +350,11 @@ export default {
         return item.name === fkyyvalue_data;
       });
       this.form.fkyynumber = obj.number;
+      if (this.form.fkyynumber == "" || this.form.fkyyvalue == "") {
+        this.disabled = true;
+      } else {
+        this.disabled = false;
+      }
     },
     getCurrentData() {
       return (
@@ -343,6 +369,9 @@ export default {
     initDate() {
       // console.log(this.getCurrentData());
       this.form.fktime = this.getCurrentData();
+      if (this.form.fkyynumber == "" || this.form.fkyyvalue == "") {
+        this.disabled = true;
+      }
     },
     onSubmit: function() {
       // console.log(this.form);
@@ -356,6 +385,10 @@ export default {
       if (this.form.pdnumber == "") {
         form.pdnumber = "无";
       }
+      // if (this.form.fkyynumber == "" || this.form.fkyyvalue == "") {
+      //   this.disabled = true;
+      //   return false;
+      // }
       this.form.fkwb =
         "反馈时间" +
         "\r\n" +
