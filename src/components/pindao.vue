@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="header">
-      <h2>YY志愿者联盟追踪器</h2>
+      <h2>废弃</h2>
     </div>
     <div class="formdiv">
       <el-form ref="form" :model="form" label-width="80px">
@@ -19,6 +19,12 @@
             </el-input>
           </div>
         </div>
+        <div class="createBtn">
+          <el-button type="primary" @click="onSubmit">立即追踪</el-button>
+        </div>
+        <div class="yyinfodiv">
+          <div>YY昵称：{{ yyname }}</div>
+        </div>
       </el-form>
     </div>
   </div>
@@ -30,13 +36,18 @@ export default {
   data: function() {
     return {
       form: {
-        yynumber: "3594511" //  追踪YY号
-      }
+        yynumber: "" //  追踪YY号
+      },
+      yyinfo: "",
+      yyname: "",
+      subCid: "",
+      topCid: ""
     };
   },
   created() {},
   methods: {
-    searchpd: function() {
+    searchpd: function() {},
+    onSubmit: function() {
       this.axios({
         url: process.env.API_HOST + "/mobileweb/u/" + this.form.yynumber, // 请求地址
         method: "get", //  请求方法
@@ -46,19 +57,62 @@ export default {
         }
       })
         .then(res => {
-          let yyuserinfo = res.data;
+          let resdata = res.data;
           // 获取script标签内的内容
           let reg = /<script[^>]*>([^<]|<(?!\/script))*<\/script>/gim;
-          let aa = yyuserinfo.match(reg);
+          let aa = resdata.match(reg);
+          // 如果具有script标签
+          if (aa != null) {
+            aa.forEach(ele => {
+              let startIndex = ele.indexOf(">");
+              let endIndex = ele.lastIndexOf("<");
+              ele = ele.slice(startIndex + 1, endIndex);
+              if (ele.indexOf("anchorInfo") != -1) {
+                console.log(ele); //每一段script标签的内容
+                let reg2 = /anchorInfo:([\s\S]*?)}/g;
+                let bb = ele.match(reg2);
+                var cc = bb.toString().replace(/anchorInfo:/g, "");
+                let testJson = eval("(" + cc + ")");
+                this.yyinfo = testJson;
+                console.log(testJson);
 
-          console.log(aa);
+                this.axios({
+                  url:
+                    process.env.API_HOST +
+                    "/mobileweb/profile/checkUidOnline?uid=" +
+                    this.yyinfo.uid, // 请求地址
+                  method: "get", //  请求方法
+                  responseType: "json", // 返回值类型
+                  header: {
+                    "Access-Control-Allow-Origin": "https://mobi.yy.com/"
+                  }
+                })
+                  .then(res => {
+                    let resdata = res.data;
+                    this.subCid = resdata.subCid;
+                    this.topCid = resdata.topCid;
+                    console.log(resdata);
+                  })
+                  .catch(error => {
+                    console.log(error); // 请求失败
+                    this.$message({
+                      showClose: true,
+                      message: "很抱歉，查询出错！",
+                      type: "error"
+                    });
+                  });
+              }
+            });
+          }
+
+          // console.log(aa);
           //   console.log(yyuserinfo); //  请求成功
         })
         .catch(error => {
           console.log(error); // 请求失败
           this.$message({
             showClose: true,
-            message: "很抱歉，查询失败，请自行填写！",
+            message: "很抱歉，查询出错！",
             type: "error"
           });
         });
