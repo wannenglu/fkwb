@@ -24,6 +24,11 @@
         </div>
         <div class="yyinfodiv">
           <div>YY昵称：{{ yyname }}</div>
+          <div>YY签名：{{ sign }}</div>
+          <div>直播间号：{{ roomId }}</div>
+          <div>直播间短位：{{ shortRoomId }}</div>
+          <div>当前置顶：{{ topCid }}</div>
+          <div>当前位置：{{ subCid }}</div>
         </div>
       </el-form>
     </div>
@@ -40,6 +45,9 @@ export default {
       },
       yyinfo: "",
       yyname: "",
+      roomId: "",
+      shortRoomId: "",
+      sign: "",
       subCid: "",
       topCid: ""
     };
@@ -75,6 +83,10 @@ export default {
                 let testJson = eval("(" + cc + ")");
                 this.yyinfo = testJson;
                 console.log(testJson);
+                this.yyname = testJson.nick;
+                this.roomId = testJson.roomId;
+                this.shortRoomId = testJson.shortRoomId;
+                this.sign = testJson.sign;
 
                 this.axios({
                   url:
@@ -89,8 +101,8 @@ export default {
                 })
                   .then(res => {
                     let resdata = res.data;
-                    this.subCid = resdata.subCid;
-                    this.topCid = resdata.topCid;
+                    this.subCid = resdata.data.subCid;
+                    this.topCid = resdata.data.topCid;
                     console.log(resdata);
                   })
                   .catch(error => {

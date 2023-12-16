@@ -51,7 +51,6 @@
                   placeholder="请输入疑似违规频道号"
                   v-model="form.pdnumber"
                   clearable
-                  @blur="searchyy"
                 >
                 </el-input>
               </div>
@@ -281,10 +280,10 @@ export default {
       })
         .then(res => {
           this.form.userdata = res.data;
-          // console.log(res); //  请求成功
+          console.log(res); //  请求成功
         })
         .catch(error => {
-          // console.log(error); // 请求失败
+          console.log(error); // 请求失败
         });
     },
     // searchpd: function () {
@@ -327,107 +326,10 @@ export default {
             });
           }
 
-          // console.log(res); //  请求成功
+          console.log(res); //  请求成功
         })
         .catch(error => {
-          // console.log(error); // 请求失败
-          this.$message({
-            showClose: true,
-            message: "很抱歉，查询失败，请自行填写！",
-            type: "error"
-          });
-        });
-    },
-    searchyy: function() {
-      this.axios({
-        url:
-          process.env.API_HOST +
-          "/apiSearch/doSearch.json?q=" +
-          this.form.pdnumber, // 请求地址
-        method: "get", //  请求方法
-        responseType: "json", // 返回值类型
-        header: {
-          "Access-Control-Allow-Origin": "https://www.yy.com/"
-        }
-      })
-        .then(res => {
-          let siddata = res.data.data.searchResult.response[2].docs[0];
-          // console.log("siddata====", siddata);
-          this.axios({
-            url:
-              process.env.API_HOST +
-              "/mobileweb/play/liveinfo?sid=" +
-              siddata.sid +
-              "&ssid=" +
-              siddata.sid, // 请求地址
-            method: "get", //  请求方法
-            responseType: "json", // 返回值类型
-            header: {
-              "Access-Control-Allow-Origin": "https://wap.yy.com/"
-            }
-          })
-            .then(res => {
-              let yypdinfo = res.data.data;
-              // console.log("yypdinfo===", yypdinfo);
-              if (yypdinfo.liveId) {
-                this.axios({
-                  url:
-                    process.env.API_HOST +
-                    "/mobileweb/anchor/info/" +
-                    yypdinfo.liveId, // 请求地址
-                  method: "get", //  请求方法
-                  responseType: "json", // 返回值类型
-                  header: {
-                    "Access-Control-Allow-Origin": "https://wap.yy.com/"
-                  }
-                })
-                  .then(res => {
-                    let data = res.data.data;
-                    if (data.yyNum) {
-                      this.form.yynumber = data.yyNum;
-
-                      this.$message({
-                        showClose: true,
-                        message: "已自动填充违规YY号，请仔细核对！",
-                        type: "success"
-                      });
-                    } else {
-                      this.form.yynumber = "";
-                      this.$message({
-                        showClose: true,
-                        message: "未查询到关联的yy号，请自行填写！"
-                      });
-                    }
-                    // console.log("查询yy号", data);
-                  })
-                  .catch(error => {
-                    console.log(error); // 请求失败
-                    this.$message({
-                      showClose: true,
-                      message: "很抱歉，查询失败，请自行填写！",
-                      type: "error"
-                    });
-                  });
-              } else {
-                this.$message({
-                  showClose: true,
-                  message: "查询失败，请自行填写！"
-                });
-              }
-
-              // console.log(res); //  请求成功
-            })
-            .catch(error => {
-              // console.log(error); // 请求失败
-              this.$message({
-                showClose: true,
-                message: "很抱歉，查询失败，请自行填写！",
-                type: "error"
-              });
-            });
-        })
-        .catch(error => {
-          // console.log(error); // 请求失败
+          console.log(error); // 请求失败
           this.$message({
             showClose: true,
             message: "很抱歉，查询失败，请自行填写！",
