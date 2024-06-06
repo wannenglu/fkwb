@@ -237,7 +237,7 @@
         </div>
       </el-tab-pane>
       <el-tab-pane label="更新记录" name="third">
-        <div>
+        <div class="formdiv">
           <el-timeline :reverse="reverse">
             <el-timeline-item
               v-for="(activity, index) in activities"
