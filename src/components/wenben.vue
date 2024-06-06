@@ -236,6 +236,19 @@
           </el-form>
         </div>
       </el-tab-pane>
+      <el-tab-pane label="更新记录" name="third">
+        <div>
+          <el-timeline :reverse="reverse">
+            <el-timeline-item
+              v-for="(activity, index) in activities"
+              :key="index"
+              :timestamp="activity.timestamp"
+            >
+              {{ activity.content }}
+            </el-timeline-item>
+          </el-timeline>
+        </div>
+      </el-tab-pane>
     </el-tabs>
     <div class="beian">
       <p>YY志愿者联盟-初心战队 © 版权所有</p>
@@ -270,12 +283,15 @@ export default {
         fkwb2: "" // 疑问反馈文本
       },
       disabled: false,
-      restaurants: []
+      restaurants: [],
+      activities: [],
+      reverse: true
     };
   },
   created() {
     this.getjson();
     this.getguanfang();
+    this.getupdate();
     this.initDate();
     this.form.wgms = this.form.wglx;
   },
@@ -306,6 +322,20 @@ export default {
         .then(res => {
           this.restaurants = res.data;
           console.log(res.data); //  请求成功
+        })
+        .catch(error => {
+          // console.log(error); // 请求失败
+        });
+    },
+    getupdate: function() {
+      this.axios({
+        url: "./static/update.json", //  请求地址
+        method: "get", //  请求方法
+        responseType: "json" // 返回值类型
+      })
+        .then(res => {
+          this.activities = res.data;
+          // console.log(res); //  请求成功
         })
         .catch(error => {
           // console.log(error); // 请求失败
