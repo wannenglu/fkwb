@@ -169,12 +169,20 @@
             <div class="demo-input-suffix">
               <div class="formp">官方昵称</div>
               <div class="block">
-                <el-input
+                <!-- <el-input
                   placeholder="请输入官方昵称"
                   v-model="form2.gfname"
                   clearable
                 >
-                </el-input>
+                </el-input> -->
+                <el-autocomplete
+                  class="inline-input"
+                  v-model="form2.gfname"
+                  :fetch-suggestions="querySearch"
+                  placeholder="请输入官方昵称"
+                  @select="handleSelect"
+                  clearable
+                ></el-autocomplete>
               </div>
             </div>
             <div class="demo-input-suffix">
@@ -261,11 +269,13 @@ export default {
         ywd: "", // 疑问点
         fkwb2: "" // 疑问反馈文本
       },
-      disabled: false
+      disabled: false,
+      restaurants: []
     };
   },
   created() {
     this.getjson();
+    this.getguanfang();
     this.initDate();
     this.form.wgms = this.form.wglx;
   },
@@ -282,6 +292,20 @@ export default {
         .then(res => {
           this.form.userdata = res.data;
           // console.log(res); //  请求成功
+        })
+        .catch(error => {
+          // console.log(error); // 请求失败
+        });
+    },
+    getguanfang: function() {
+      this.axios({
+        url: "./static/guanfang.json", //  请求地址
+        method: "get", //  请求方法
+        responseType: "json" // 返回值类型
+      })
+        .then(res => {
+          this.restaurants = res.data;
+          console.log(res.data); //  请求成功
         })
         .catch(error => {
           // console.log(error); // 请求失败
@@ -589,6 +613,23 @@ export default {
         message: "复制成功！",
         type: "success"
       });
+    },
+    querySearch(queryString, cb) {
+      var restaurants = this.restaurants;
+      console.log("restaurants", restaurants);
+      var results = queryString
+        ? restaurants.filter(this.createFilter(queryString))
+        : restaurants;
+      // 调用 callback 返回建议列表的数据
+      cb(results);
+    },
+    createFilter(queryString) {
+      return restaurant => {
+        return restaurant.value.indexOf(queryString) === 0;
+      };
+    },
+    handleSelect(item) {
+      console.log(item);
     }
   }
 };
